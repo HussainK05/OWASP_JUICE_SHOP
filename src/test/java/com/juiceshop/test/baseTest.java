@@ -30,7 +30,16 @@ public class baseTest {
     @BeforeEach
     public void baseSetup(){
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("browserName", "chrome");
+
+        try {
+            driver = new RemoteWebDriver(new URL("http://hub.com:4444/wd/hub"),
+                    capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        //driver = new ChromeDriver();
         driver.manage().window().maximize();
         baseUrl=prop.getProperty("baseurl");
         driver.get(baseUrl);
